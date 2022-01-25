@@ -2,7 +2,7 @@ library net_module;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_core/ext/extenssion_module.dart';
+import 'package:flutter_core/ext/extension_module.dart';
 
 part 'interceptor/change_base_url.dart';
 part 'interceptor/http_log.dart';

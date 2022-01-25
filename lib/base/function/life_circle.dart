@@ -9,15 +9,6 @@ abstract class LifeCircle{
   ///初始化一些变量 相当于android onCreate,初始化数据操作
   void onCreate();
 
-  ///相当于onResume,只要页面来到栈顶,都会调用此方法,网络请求可以放在这个方法
-  void onResumeIsFirst(bool isFirst){}
-
-  ///相当于onResume,只要页面来到栈顶,都会调用此方法,网络请求可以放在这个方法
-  void onResume();
-
-  ///页面被覆盖,暂停
-  void onPause();
-
   ///app切回到后台
   void onBackground() {
     LogUtil.log(text: "$name-回到后台");
@@ -30,9 +21,5 @@ abstract class LifeCircle{
 
   ///页面注销方法
   void onDestroy() {
-    LogUtil.log(text: "$name-销毁");
   }
-
-  /// 重写添加其他页面返回结果处理
-  void onBackResult(int requestCode, dynamic result){}
 }

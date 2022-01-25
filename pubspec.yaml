@@ -20,7 +20,7 @@ dependencies:
   #  数据本地化
   shared_preferences: ^2.0.8
   #  图片缓存
-  cached_network_image: ^3.1.0
+  cached_network_image: ^3.2.0
   #  状态管理
   provider: ^6.0.1
   #  电话,短信,浏览器,其他app
@@ -29,6 +29,10 @@ dependencies:
   date_format: ^2.0.4
   #  吐司提示
   fluttertoast: ^8.0.7
+  #  尺寸适配
+  flutter_screenutil: ^5.1.0
+  # 上下拉刷新
+  pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:

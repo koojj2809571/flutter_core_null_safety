@@ -29,11 +29,11 @@ extension StringUtil on String? {
 
   Color? get hexColor {
     String color = this!.replaceAll('#', '').trim();
-    if (color.length == 6){
+    if (color.length == 6) {
       color = 'FF$color';
     }
-    int colorValue = int.tryParse(color,radix: 16) ?? 0xFF000000;
-    if(colorValue.empty) return null;
+    int colorValue = int.tryParse(color, radix: 16) ?? 0xFF000000;
+    if (colorValue.empty) return null;
     return Color(colorValue);
   }
 
@@ -47,6 +47,26 @@ extension StringUtil on String? {
       }
     }
     return indexes;
+  }
+
+  void toast({
+    pos = ToastGravity.BOTTOM,
+    duration = Toast.LENGTH_SHORT,
+    Color? bg,
+    Color? textColor,
+    size = 16.0,
+    timeInSec = 1,
+  }) {
+    if(blank)return;
+    Fluttertoast.showToast(
+      msg: this ?? '',
+      toastLength: duration,
+      gravity: pos,
+      timeInSecForIosWeb: timeInSec,
+      backgroundColor: bg,
+      textColor: textColor,
+      fontSize: size,
+    );
   }
 
   /// 变换字符串单词连接方式
@@ -68,6 +88,4 @@ extension StringUtil on String? {
     }
     return '$start${temp.join(split)}';
   }
-
-
 }

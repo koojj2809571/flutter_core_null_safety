@@ -6,6 +6,7 @@ enum FinishType { normal, cancel }
 
 abstract class BasePage extends StatefulWidget {
   late final String pagePath;
+  late final dynamic stack;
 
   BasePage({Key? key}) : super(key: key) {
     if (isDebug) {
@@ -14,36 +15,6 @@ abstract class BasePage extends StatefulWidget {
       path = path.split(')')[0];
       path = path.split('(')[1];
       pagePath = '$className: ($path)';
-    }
-  }
-
-  void startPage<T>(
-    LifeCircle from, {
-    int? requestCode,
-    StartType type = StartType.normal,
-    Object? arguments,
-  }) {
-    String routeName = runtimeType.toString().splitUpperCaseWith('/', '-');
-    switch (type) {
-      case StartType.normal:
-        // ExtendedNavigator.root.push(routeName,
-        //   arguments: arguments
-        // ).then((value){
-        //   from.onResumeIsFirst(false);
-        //   from.onResume();
-        //   from.onBackResult(requestCode,value);
-        // });
-        break;
-      case StartType.removeUntil:
-        // ExtendedNavigator.root.pushAndRemoveUntil(routeName,
-        //   (Route<dynamic> route) => false,
-        //   arguments: arguments,
-        // ).then((value){
-        //   from.onResumeIsFirst(false);
-        //   from.onResume();
-        //   from.onBackResult(requestCode,value);
-        // });
-        break;
     }
   }
 }
@@ -72,6 +43,9 @@ abstract class BasePageState<T extends BasePage> extends State<T>
     super.initState();
   }
 
+  @override
+  void onCreate() {}
+
   void _onController() {
     if (_isAutoHandleHttpResult()) {
       if (isAutoHandleHttpEmpty()) {
@@ -92,25 +66,15 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   }
 
   @override
-  void deactivate() {
-    onPause();
-    super.deactivate();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (isKeepAlive()) {
       super.build(context);
     }
     buildBeforeReturn(context);
-    // 调用场景与deactivate类似, 区别在于每次调用setState后该方法也会被调用
-    if (!_onFirstResumed) {
-      _onFirstResumed = true;
-      onResumeIsFirst(true);
-      onResume();
-    }
-
-    return _buildOnBackPressedWrapper(context);
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: statusBarStyle,
+      child: _buildOnBackPressedWrapper(context),
+    );
   }
 
   @override
@@ -133,13 +97,10 @@ abstract class BasePageState<T extends BasePage> extends State<T>
     if (state == AppLifecycleState.resumed) {
       if (NavigatorManger().isTopPage(this)) {
         onForeground();
-        onResumeIsFirst(true);
-        onResume();
       }
     } else if (state == AppLifecycleState.paused) {
       if (NavigatorManger().isTopPage(this)) {
         onBackground();
-        onPause();
       }
     }
     super.didChangeAppLifecycleState(state);
@@ -254,20 +215,6 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   @override
   bool get wantKeepAlive => isKeepAlive();
 
-  void finishPage({
-    FinishType type = FinishType.normal,
-    Object? result,
-  }) {
-    switch (type) {
-      case FinishType.normal:
-        // ExtendedNavigator.root.pop(result);
-        break;
-      case FinishType.cancel:
-        // ExtendedNavigator.root.pop();
-        break;
-    }
-  }
-
   /// 是否自动处理网络请求对应页面展示
   bool _isAutoHandleHttpResult() =>
       isAutoHandleHttpLoading() ||
@@ -275,6 +222,9 @@ abstract class BasePageState<T extends BasePage> extends State<T>
       isAutoHandleHttpEmpty();
 
   /*------------------------------------ 子类实现方法 ------------------------------------*/
+
+  ///未设置AppBar时状态栏字体颜色
+  SystemUiOverlayStyle get statusBarStyle => SystemUiOverlayStyle.dark;
 
   /// 是否在销毁时取消页面请求
   bool isCancelRequestWhenDispose() => false;

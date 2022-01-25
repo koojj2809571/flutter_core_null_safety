@@ -31,7 +31,7 @@ class HttpUtil {
 
     if (_instance == null && baseUrl != null) {
       _initBaseUrl = baseUrl;
-      return HttpUtil._internal(
+      _instance = HttpUtil._internal(
         baseUrl,
         cTimeout,
         rTimeout,

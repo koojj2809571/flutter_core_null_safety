@@ -12,19 +12,18 @@ abstract class BaseFragment extends StatefulWidget {
       componentPath = '$className: ($path)';
     }
   }
-
 }
 
 abstract class BaseFragmentState<T extends BaseFragment> extends State<T>
     with WidgetsBindingObserver, LifeCircle, BaseScaffold {
-  bool _onFirstResumed = false;
-
   @override
   void initState() {
     WidgetsBinding.instance!.addObserver(this);
+    LogUtil.log(tag: '碎片 =====>', text: widget.componentPath);
+    setComponentName(getWidgetName());
     onCreate();
     if (mounted) {}
-    LogUtil.log(tag: '碎片 =====>', text: widget.componentPath);
+
     super.initState();
   }
 
@@ -35,28 +34,25 @@ abstract class BaseFragmentState<T extends BaseFragment> extends State<T>
 
   @override
   void deactivate() {
-    onPause();
     super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
     buildBeforeReturn(context);
-    // 调用场景与deactivate类似, 区别在于每次调用setState后该方法也会被调用
-    if (!_onFirstResumed) {
-      _onFirstResumed = true;
-      onResumeIsFirst(true);
-      onResume();
-    }
-
-    return _buildAutoHideKeyboardWrapper(context);
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: statusBarStyle,
+      child: _buildAutoHideKeyboardWrapper(context),
+    );
   }
+
+  @override
+  void onCreate() {}
 
   @override
   void dispose() {
     onDestroy();
     WidgetsBinding.instance!.removeObserver(this);
-    _onFirstResumed = false;
     super.dispose();
   }
 
@@ -126,6 +122,9 @@ abstract class BaseFragmentState<T extends BaseFragment> extends State<T>
       body: content,
     );
   }
+
+  ///未设置AppBar时状态栏字体颜色
+  SystemUiOverlayStyle get statusBarStyle => SystemUiOverlayStyle.dark;
 
   /// 重写添加状态管理的provider
   List<SingleChildWidget>? getProvider() {
