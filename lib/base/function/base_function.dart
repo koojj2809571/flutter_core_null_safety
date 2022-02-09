@@ -206,6 +206,10 @@ abstract class BaseFunction {
     }
   }
 
+  void hideKeyboard(){
+    FocusScope.of(_contextBaseFunction!).requestFocus(FocusNode());
+  }
+
   String getWidgetName() => getWidgetNameByClass(_contextBaseFunction!);
 
   String getWidgetNameByClass(BuildContext? context) {
@@ -233,8 +237,8 @@ abstract class BaseFunction {
         return Material(
           color: Colors.black.withOpacity(0.05),
           child: WillPopScope(
-            child: const Center(
-              child: CupertinoActivityIndicator(radius: 40),
+            child: Center(
+              child: CupertinoActivityIndicator(radius: 10.w),
             ),
             onWillPop: () => Future.value(false),
           ),

@@ -9,13 +9,11 @@ abstract class BasePage extends StatefulWidget {
   late final dynamic stack;
 
   BasePage({Key? key}) : super(key: key) {
-    if (isDebug) {
-      String className = runtimeType.toString();
-      String path = StackTrace.current.toString().split(className)[1];
-      path = path.split(')')[0];
-      path = path.split('(')[1];
-      pagePath = '$className: ($path)';
-    }
+    String className = runtimeType.toString();
+    String path = StackTrace.current.toString().split(className)[1];
+    path = path.split(')')[0];
+    path = path.split('(')[1];
+    pagePath = '$className: ($path)';
   }
 }
 
@@ -26,7 +24,6 @@ abstract class BasePageState<T extends BasePage> extends State<T>
         LifeCircle,
         BaseScaffold,
         AutomaticKeepAliveClientMixin {
-  bool _onFirstResumed = false;
 
   @override
   void initState() {
@@ -49,13 +46,19 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   void _onController() {
     if (_isAutoHandleHttpResult()) {
       if (isAutoHandleHttpEmpty()) {
-        setEmptyWidgetVisible(HttpUtil().httpController().isEmpty);
+        setEmptyWidgetVisible(HttpUtil()
+            .httpController()
+            .isEmpty);
       }
       if (isAutoHandleHttpError()) {
-        setErrorWidgetVisible(HttpUtil().httpController().isError);
+        setErrorWidgetVisible(HttpUtil()
+            .httpController()
+            .isError);
       }
       if (isAutoHandleHttpLoading()) {
-        setLoadingWidgetVisible(HttpUtil().httpController().isLoading);
+        setLoadingWidgetVisible(HttpUtil()
+            .httpController()
+            .isLoading);
       }
     }
   }
@@ -81,7 +84,6 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   void dispose() {
     onDestroy();
     WidgetsBinding.instance!.removeObserver(this);
-    _onFirstResumed = false;
 
     // 取消网络请求
     if (isCancelRequestWhenDispose()) {
@@ -108,21 +110,23 @@ abstract class BasePageState<T extends BasePage> extends State<T>
 
   /// 点击返回按按钮时执行逻辑
   Widget _buildOnBackPressedWrapper(BuildContext context) {
-    return WillPopScope(
-      child: _buildAutoHideKeyboardWrapper(context),
-      onWillPop: onBackPressed,
-    );
+    if (Platform.isIOS && canIosSwipeGoBack) {
+      return _buildAutoHideKeyboardWrapper(context);
+    } else {
+      return WillPopScope(
+        child: _buildAutoHideKeyboardWrapper(context),
+        onWillPop: onBackPressed,
+      );
+    }
   }
 
   /// 点击页面收起键盘
   Widget _buildAutoHideKeyboardWrapper(BuildContext context) {
     return canClickPageHideKeyboard()
         ? GestureDetector(
-            onTap: () {
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-            child: _buildProviderWrapper(context),
-          )
+      onTap: hideKeyboard,
+      child: _buildProviderWrapper(context),
+    )
         : _buildProviderWrapper(context);
   }
 
@@ -130,12 +134,12 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   Widget _buildProviderWrapper(BuildContext context) {
     return !getProvider().empty
         ? MultiProvider(
-            providers: getProvider(),
-            child: _buildCustomerPageLayout(_buildContentWrapper(context)) ??
-                _buildPageLayout(_buildContentWrapper(context)),
-          )
+      providers: getProvider(),
+      child: _buildCustomerPageLayout(_buildContentWrapper(context)) ??
+          _buildPageLayout(_buildContentWrapper(context)),
+    )
         : _buildCustomerPageLayout(_buildContentWrapper(context)) ??
-            _buildPageLayout(_buildContentWrapper(context));
+        _buildPageLayout(_buildContentWrapper(context));
   }
 
   /// 封装错误,空白,加载中组件
@@ -201,7 +205,7 @@ abstract class BasePageState<T extends BasePage> extends State<T>
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       primary: primary ?? true,
       drawerDragStartBehavior:
-          drawerDragStartBehavior ?? DragStartBehavior.start,
+      drawerDragStartBehavior ?? DragStartBehavior.start,
       extendBody: extendBody ?? false,
       extendBodyBehindAppBar: extendBodyBehindAppBar ?? false,
       drawerScrimColor: drawerScrimColor,
@@ -218,8 +222,8 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   /// 是否自动处理网络请求对应页面展示
   bool _isAutoHandleHttpResult() =>
       isAutoHandleHttpLoading() ||
-      isAutoHandleHttpError() ||
-      isAutoHandleHttpEmpty();
+          isAutoHandleHttpError() ||
+          isAutoHandleHttpEmpty();
 
   /*------------------------------------ 子类实现方法 ------------------------------------*/
 
@@ -252,6 +256,9 @@ abstract class BasePageState<T extends BasePage> extends State<T>
     return [];
   }
 
+  /// ios禁用左滑返回
+  bool get canIosSwipeGoBack => true;
+
   /// 不使用Scaffold时重写,页面中可调用或重写
   /// [setErrorContent] - 重写自定义错误控件
   /// [setErrorWidgetVisible] - 控制错误控件显示
@@ -283,7 +290,8 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   ///
   /// [setCustomerPageContent]返回null时页面显示[setPageContent]返回内容,
   /// [setCustomerPageContent]返回不为null时[setPageContent]不生效
-  Widget setPageContent(BuildContext context) => const SizedBox(
+  Widget setPageContent(BuildContext context) =>
+      const SizedBox(
         width: 20,
         height: 20,
         child: Text(''),

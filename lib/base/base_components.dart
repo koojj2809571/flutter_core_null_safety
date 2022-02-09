@@ -4,13 +4,11 @@ abstract class BaseComponent extends StatefulWidget {
   late final String componentPath;
 
   BaseComponent({Key? key}) : super(key: key){
-    if(isDebug) {
       String className = toString();
       String path = StackTrace.current.toString().split(className)[1];
       path = path.split(')')[0];
       path = path.split('(')[1];
       componentPath = '$className: ($path)';
-    }
   }
 
 }
