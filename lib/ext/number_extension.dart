@@ -8,10 +8,14 @@ extension NumberUtil on num? {
   bool get bVaule => this != 0;
 
   ///返回状态栏高度与当前实例相乘的积 status bar height
-  double get sbh => this! * MediaQuery.of(NavigatorManger().curContext).padding.top;
+  double sbh(BuildContext context) =>
+      this! * MediaQuery.of(context).padding.top;
 
   ///返回appbar高度，也就是使用sdk导航栏高度与当前实例相乘的积 app bar height
   double get abh => this! * kToolbarHeight;
+
+  DateTime? get timestamp =>
+      this == null ? null : DateTime.fromMillisecondsSinceEpoch(this!.floor());
 
   /// 输出控制台
   void log({String? tag}) {

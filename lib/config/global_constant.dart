@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 typedef CheckLogin = bool Function();
 
-enum LoginType{accountPwd, phoneCode, phoneAuto, thirdLogin, enableRegister}
+enum LoginType{accountPwd, phoneCode, phoneAuto, thirdLogin, enableRegister, offline}
 
 class GlobalConstant {
   static GlobalConstant? _instance;

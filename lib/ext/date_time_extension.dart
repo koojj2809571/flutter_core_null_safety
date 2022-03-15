@@ -1,10 +1,11 @@
 part of extenssion_module;
 
 extension DateTimeExt on DateTime {
+  int get ms => millisecondsSinceEpoch;
+
   String shortTime() {
     DateTime now = DateTime.now();
-    int value =
-        (now.millisecondsSinceEpoch - millisecondsSinceEpoch) ~/ 1000;
+    int value = (now.ms - ms) ~/ 1000;
     if (value > 60) {
       ///一小时内
       if (value < 60 * 60) {
@@ -20,9 +21,7 @@ extension DateTimeExt on DateTime {
       if (value < 60 * 60 * 24 * 3) {
         DateTime nowDate = DateTime(now.year, now.month, now.day);
         DateTime thisDate = DateTime(year, month, day);
-        int delta = (nowDate.millisecondsSinceEpoch -
-                thisDate.millisecondsSinceEpoch) ~/
-            1000;
+        int delta = (nowDate.ms - thisDate.ms) ~/ 1000;
 
         ///同一天
         if (delta == 0) {

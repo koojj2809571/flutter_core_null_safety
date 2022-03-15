@@ -44,7 +44,6 @@ class HttpUtil {
       );
     }
 
-    assert(_instance == null, 'HttpUtil实例为null');
     if (baseUrl != null) return _baseUrl(baseUrl);
     return _instance!;
   }
