@@ -16,7 +16,7 @@ abstract class BaseFragmentState<T extends BaseFragment> extends State<T>
     with WidgetsBindingObserver, LifeCircle, BaseScaffold {
   @override
   void initState() {
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     LogUtil.log(tag: '碎片 =====>', text: widget.componentPath);
     setComponentName(getWidgetName());
     onCreate();
@@ -50,7 +50,7 @@ abstract class BaseFragmentState<T extends BaseFragment> extends State<T>
   @override
   void dispose() {
     onDestroy();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

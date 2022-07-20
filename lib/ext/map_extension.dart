@@ -8,7 +8,7 @@ extension MapUtil on Map? {
   String mapToStructureString({int indentation = 2}) {
     String result = "";
     String indentationStr = " " * indentation;
-    result += "{";
+    result += " {";
     if (this!.isNotEmpty) {
       this!.forEach((key, value) {
         if (value is Map) {

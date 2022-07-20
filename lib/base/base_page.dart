@@ -29,7 +29,7 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   void initState() {
     initBaseCommon(this);
     NavigatorManger().addWidget(this);
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     if (_isAutoHandleHttpResult()) {
       HttpUtil().httpController().addListener(_onController);
     }
@@ -83,7 +83,7 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   @override
   void dispose() {
     onDestroy();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
 
     // 取消网络请求
     if (isCancelRequestWhenDispose()) {

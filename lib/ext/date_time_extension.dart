@@ -2,6 +2,7 @@ part of extenssion_module;
 
 extension DateTimeExt on DateTime {
   int get ms => millisecondsSinceEpoch;
+  int get s => (ms / 1000).round();
 
   String shortTime() {
     DateTime now = DateTime.now();

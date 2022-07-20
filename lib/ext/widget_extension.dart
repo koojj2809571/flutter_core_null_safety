@@ -17,17 +17,24 @@ extension WidgetExt on Widget {
           }
         },
         onDoubleTap: () {
-          bool isLogin =  needLogin ? GlobalConstant().checkLogin() : true;
+          bool isLogin = needLogin ? GlobalConstant().checkLogin() : true;
           if (onDoubleTap != null && isLogin) {
             onDoubleTap();
           }
         },
         onLongPress: () {
-          bool isLogin =  needLogin ? GlobalConstant().checkLogin() : true;
+          bool isLogin = needLogin ? GlobalConstant().checkLogin() : true;
           if (onLongPress != null && isLogin) {
             onLongPress();
           }
         },
         behavior: HitTestBehavior.translucent,
       );
+
+  Expanded intoExpand({flex = 1}) {
+    return Expanded(
+      flex: flex,
+      child: this,
+    );
+  }
 }
