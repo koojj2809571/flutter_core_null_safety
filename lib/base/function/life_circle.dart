@@ -1,13 +1,13 @@
 part of base_module;
 
-abstract class LifeCircle{
+mixin class LifeCircle{
 
   String? name;
 
   void setComponentName(String name) => this.name = name;
 
   ///初始化一些变量 相当于android onCreate,初始化数据操作
-  void onCreate();
+  void onCreate(){}
 
   ///app切回到后台
   void onBackground() {

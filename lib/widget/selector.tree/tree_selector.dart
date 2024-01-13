@@ -10,10 +10,10 @@ class TreeSelectDialog<T extends BaseTreeData> extends StatefulWidget {
   final Function onSelectedCall;
 
   const TreeSelectDialog({
-    Key? key,
+    super.key,
     required this.treeData,
     required this.onSelectedCall,
-  }) : super(key: key);
+  });
 
   @override
   _TreeSelectDialogState createState() => _TreeSelectDialogState();

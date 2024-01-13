@@ -16,7 +16,7 @@ class ConnectionStatusInterceptor extends Interceptor {
 
   @override
   Future onError(
-    DioError err,
+    DioException err,
     ErrorInterceptorHandler handler,
   ) async {
     _controller.stopLoading();

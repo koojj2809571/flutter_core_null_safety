@@ -5,7 +5,6 @@ import 'dart:io';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_core/base/base_module.dart';
 import 'package:flutter_core/config/global_constant.dart';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';

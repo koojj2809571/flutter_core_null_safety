@@ -26,10 +26,10 @@ class HttpController extends ChangeNotifier{
     notifyListeners();
   }
 
-  void onError(DioError e){
+  void onError(DioException e){
     isLoading = false;
     isError = true;
-    errorMessage = e.message;
+    errorMessage = e.message ?? 'UNKNOWN_ERROR';
     notifyListeners();
   }
 

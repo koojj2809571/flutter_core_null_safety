@@ -1,6 +1,6 @@
 part of base_module;
 
-abstract class BaseFunction {
+mixin class BaseFunction {
   State? _stateBaseFunction;
   BuildContext? _contextBaseFunction;
 
@@ -236,11 +236,11 @@ abstract class BaseFunction {
       builder: (BuildContext context) {
         return Material(
           color: Colors.black.withOpacity(0.05),
-          child: WillPopScope(
+          child: PopScope(
             child: Center(
               child: CupertinoActivityIndicator(radius: 10.w),
             ),
-            onWillPop: () => Future.value(false),
+            onPopInvoked: (bool didPop) => Future.value(false),
           ),
         );
       },

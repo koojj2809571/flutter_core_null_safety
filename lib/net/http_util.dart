@@ -70,8 +70,8 @@ class HttpUtil {
     _controller = HttpController();
     BaseOptions options = BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: cTimeout,
-      receiveTimeout: rTimeout,
+      connectTimeout: Duration(milliseconds: cTimeout ?? 30000),
+      receiveTimeout: Duration(milliseconds: cTimeout ?? 30000),
       headers: headers,
       contentType: cType,
       responseType: rType,

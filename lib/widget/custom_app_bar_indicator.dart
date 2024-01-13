@@ -15,7 +15,7 @@ class CustomTabBarIndicator extends Decoration {
   // 指示器颜色
   final Color color;
 
-  CustomTabBarIndicator({
+  const CustomTabBarIndicator({
     required this.type,
     this.height,
     this.lineWidth,

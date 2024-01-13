@@ -24,7 +24,7 @@ class HttpLogInterceptor extends Interceptor {
         if (data is Map) {
           requestBuffer.write('- BODY:\n${data.mapToStructureString()}\n');
         } else if (data is FormData) {
-          final formDataMap = Map()
+          final formDataMap = {}
             ..addEntries(data.fields)
             ..addEntries(data.files);
 
@@ -73,7 +73,7 @@ class HttpLogInterceptor extends Interceptor {
 
   @override
   void onError(
-    DioError err,
+    DioException err,
     ErrorInterceptorHandler handler,
   ) {
     bool isLogResponse = err.requestOptions.extra[extraLogResponse];

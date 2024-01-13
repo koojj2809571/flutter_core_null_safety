@@ -113,9 +113,9 @@ abstract class BasePageState<T extends BasePage> extends State<T>
     if (Platform.isIOS && canIosSwipeGoBack) {
       return _buildAutoHideKeyboardWrapper(context);
     } else {
-      return WillPopScope(
+      return PopScope(
         child: _buildAutoHideKeyboardWrapper(context),
-        onWillPop: onBackPressed,
+        onPopInvoked: onBackPressed,
       );
     }
   }
@@ -243,7 +243,7 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   bool isAutoHandleHttpError() => false;
 
   /// 返回true直接退出,当子类需要添加点击返回逻辑时重写该方法,默认true
-  Future<bool> onBackPressed() async => true;
+  Future<bool> onBackPressed(bool didPop) async => true;
 
   /// 重写改变返回值,true-点击页面时收起键盘,false无此功能,默认true
   bool canClickPageHideKeyboard() => true;

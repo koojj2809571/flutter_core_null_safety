@@ -1,7 +1,7 @@
 part of base_module;
 
 /// 当使用Scaffold作为页面脚手架时重写以下字段getter方法
-abstract class BaseScaffold {
+mixin class BaseScaffold {
   Key? baseScaffoldKey;
   PreferredSizeWidget? appBar;
   Widget? floatingActionButton;
