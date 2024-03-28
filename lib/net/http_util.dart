@@ -5,7 +5,7 @@ class HttpUtil {
 
   static late String _initBaseUrl;
 
-  static Dio? _dio;
+  static Dio? dio;
 
   static final Map<String, CancelToken> _cancelTokens = <String, CancelToken>{};
 
@@ -50,8 +50,8 @@ class HttpUtil {
 
   //用于指定特定域名
   static HttpUtil _baseUrl(String baseUrl) {
-    if (_dio != null) {
-      _dio!.options.baseUrl = baseUrl;
+    if (dio != null) {
+      dio!.options.baseUrl = baseUrl;
     }
     return _instance!;
   }
@@ -77,31 +77,31 @@ class HttpUtil {
       responseType: rType,
     );
 
-    _dio = Dio(options);
+    dio = Dio(options);
 
     if (responseOuterInterceptor != null) {
-      _dio!.interceptors.add(responseOuterInterceptor);
+      dio!.interceptors.add(responseOuterInterceptor);
     }
 
-    _dio!.interceptors.add(ConnectionStatusInterceptor(_controller));
+    dio!.interceptors.add(ConnectionStatusInterceptor(_controller));
 
     if (isLog) {
-      _dio!.interceptors.add(HttpLogInterceptor());
+      dio!.interceptors.add(HttpLogInterceptor());
     }
 
-    _dio!.interceptors.add(ChangeBaseUrlInterceptor());
+    dio!.interceptors.add(ChangeBaseUrlInterceptor());
 
     if (interceptors != null && interceptors.isNotEmpty) {
-      _dio!.interceptors.addAll(interceptors);
+      dio!.interceptors.addAll(interceptors);
     }
   }
 
   /// 重置默认url,默认url为初始化单例时传入BaseUrl
   void resetInitUrl() {
     assert(_instance != null, 'HttpUtil实例为null');
-    assert(_dio != null, 'Dio实例为null');
-    if (_instance == null || _dio == null) return;
-    _dio!.options.baseUrl = _initBaseUrl;
+    assert(dio != null, 'Dio实例为null');
+    if (_instance == null || dio == null) return;
+    dio!.options.baseUrl = _initBaseUrl;
   }
 
   HttpController httpController() => _controller;
@@ -151,7 +151,7 @@ class HttpUtil {
         extraCache: isCache,
       },
     );
-    var response = await _dio!.request(
+    var response = await dio!.request(
       path,
       queryParameters: method == 'GET' ? params : null,
       data: method == 'POST' ? params : null,
