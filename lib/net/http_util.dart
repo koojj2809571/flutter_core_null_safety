@@ -5,7 +5,7 @@ class HttpUtil {
 
   static late String _initBaseUrl;
 
-  static Dio? dio;
+  static Dio? _dio;
 
   static final Map<String, CancelToken> _cancelTokens = <String, CancelToken>{};
 
@@ -50,8 +50,8 @@ class HttpUtil {
 
   //用于指定特定域名
   static HttpUtil _baseUrl(String baseUrl) {
-    if (dio != null) {
-      dio!.options.baseUrl = baseUrl;
+    if (_dio != null) {
+      _dio!.options.baseUrl = baseUrl;
     }
     return _instance!;
   }
@@ -77,31 +77,33 @@ class HttpUtil {
       responseType: rType,
     );
 
-    dio = Dio(options);
+    _dio = Dio(options);
 
     if (responseOuterInterceptor != null) {
-      dio!.interceptors.add(responseOuterInterceptor);
+      _dio!.interceptors.add(responseOuterInterceptor);
     }
 
-    dio!.interceptors.add(ConnectionStatusInterceptor(_controller));
+    _dio!.interceptors.add(ConnectionStatusInterceptor(_controller));
 
     if (isLog) {
-      dio!.interceptors.add(HttpLogInterceptor());
+      _dio!.interceptors.add(HttpLogInterceptor());
     }
 
-    dio!.interceptors.add(ChangeBaseUrlInterceptor());
+    _dio!.interceptors.add(ChangeBaseUrlInterceptor());
 
     if (interceptors != null && interceptors.isNotEmpty) {
-      dio!.interceptors.addAll(interceptors);
+      _dio!.interceptors.addAll(interceptors);
     }
   }
+
+  Dio? get dio => _dio;
 
   /// 重置默认url,默认url为初始化单例时传入BaseUrl
   void resetInitUrl() {
     assert(_instance != null, 'HttpUtil实例为null');
-    assert(dio != null, 'Dio实例为null');
-    if (_instance == null || dio == null) return;
-    dio!.options.baseUrl = _initBaseUrl;
+    assert(_dio != null, 'Dio实例为null');
+    if (_instance == null || _dio == null) return;
+    _dio!.options.baseUrl = _initBaseUrl;
   }
 
   HttpController httpController() => _controller;
@@ -151,7 +153,7 @@ class HttpUtil {
         extraCache: isCache,
       },
     );
-    var response = await dio!.request(
+    var response = await _dio!.request(
       path,
       queryParameters: method == 'GET' ? params : null,
       data: method == 'POST' ? params : null,
