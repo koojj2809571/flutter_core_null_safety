@@ -132,9 +132,9 @@ abstract class BasePageState<T extends BasePage> extends State<T>
 
   /// 封装状态管理组件
   Widget _buildProviderWrapper(BuildContext context) {
-    return !getProvider().empty
+    return !getProvider(context).empty
         ? MultiProvider(
-      providers: getProvider(),
+      providers: getProvider(context),
       child: _buildCustomerPageLayout(_buildContentWrapper(context)) ??
           _buildPageLayout(_buildContentWrapper(context)),
     )
@@ -252,7 +252,7 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   bool isKeepAlive() => false;
 
   /// 重写添加状态管理的provider
-  List<SingleChildWidget> getProvider() {
+  List<SingleChildWidget> getProvider(BuildContext context) {
     return [];
   }
 
