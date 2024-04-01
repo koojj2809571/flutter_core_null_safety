@@ -27,8 +27,6 @@ abstract class BasePageState<T extends BasePage> extends State<T>
 
   @override
   void initState() {
-    initBaseCommon(this);
-
     NavigatorManger().addWidget(this);
     WidgetsBinding.instance.addObserver(this);
 
@@ -42,7 +40,7 @@ abstract class BasePageState<T extends BasePage> extends State<T>
       WidgetsBinding.instance.endOfFrame.then((_) {
         if(mounted){
           firstRenderFinish();
-          initBaseCommon(this);
+          initBaseCommon(this, context);
         }
       });
     }

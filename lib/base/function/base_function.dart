@@ -28,9 +28,9 @@ mixin class BaseFunction {
 
   Widget _getBaseEmptyWidget() => getEmptyWidget();
 
-  void initBaseCommon(State state) {
+  void initBaseCommon(State state, BuildContext context) {
     _stateBaseFunction = state;
-    _contextBaseFunction = state.context;
+    _contextBaseFunction = context;
   }
 
   ///暴露的错误页面方法，可以自己重写定制
