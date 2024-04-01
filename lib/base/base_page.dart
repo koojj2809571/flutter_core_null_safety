@@ -28,15 +28,24 @@ abstract class BasePageState<T extends BasePage> extends State<T>
   @override
   void initState() {
     initBaseCommon(this);
+
     NavigatorManger().addWidget(this);
     WidgetsBinding.instance.addObserver(this);
+
     if (_isAutoHandleHttpResult()) {
       HttpUtil().httpController().addListener(_onController);
     }
     LogUtil.log(tag: '当前页面 =====>', text: widget.pagePath);
     setComponentName(getWidgetName());
     onCreate();
-    if (mounted) {}
+    if (mounted) {
+      WidgetsBinding.instance.endOfFrame.then((_) {
+        if(mounted){
+          firstRenderFinish();
+          initBaseCommon(this);
+        }
+      });
+    }
     super.initState();
   }
 
@@ -299,4 +308,8 @@ abstract class BasePageState<T extends BasePage> extends State<T>
 
   /// 重写添加build方法return前需要执行的逻辑
   void buildBeforeReturn(BuildContext context) {}
+
+  void firstRenderFinish(){
+
+  }
 }
