@@ -144,6 +144,7 @@ class HttpUtil {
     required bool isLogResponse,
     required bool isRefresh,
     required bool isCache,
+    String? reqContentType,
   }) async {
     Options requestOptions = options;
     requestOptions = requestOptions.copyWith(
@@ -155,6 +156,7 @@ class HttpUtil {
         extraLogResponse: isLogResponse,
         extraRefresh: isRefresh,
         extraCache: isCache,
+        extraReqContentType: reqContentType,
       },
     );
     var response = await _dio!.request(
@@ -178,6 +180,7 @@ class HttpUtil {
     bool isLogResponse = false,
     bool isRefresh = false,
     bool isCache = false,
+    String? reqContentType,
   }) async {
     Options requestOptions = options ?? Options();
     return _request(
@@ -191,6 +194,7 @@ class HttpUtil {
       isLogResponse: isLogResponse,
       isCache: isCache,
       isRefresh: isRefresh,
+      reqContentType: reqContentType,
     );
   }
 
@@ -206,6 +210,7 @@ class HttpUtil {
     bool isLogResponse = false,
     bool isRefresh = false,
     bool isCache = false,
+    String? reqContentType,
   }) async {
     Options requestOptions = options ?? Options();
     return _request(
@@ -219,6 +224,7 @@ class HttpUtil {
       isLogResponse: isLogResponse,
       isCache: isCache,
       isRefresh: isRefresh,
+      reqContentType: reqContentType,
     );
   }
 }

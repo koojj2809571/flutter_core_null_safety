@@ -15,3 +15,4 @@ const extraLogResponse = 'extra_log_response'; // 包含error打印也有这个f
 
 const extraRefresh = 'extra_refresh';
 const extraCache = 'extra_cache';
+const extraReqContentType = 'extra_request_content_type';
