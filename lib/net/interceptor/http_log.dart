@@ -1,6 +1,6 @@
 part of net_module;
 
-class HttpLogInterceptor extends Interceptor {
+class HttpRequestLogInterceptor extends Interceptor {
   @override
   void onRequest(
     RequestOptions options,
@@ -40,11 +40,15 @@ class HttpLogInterceptor extends Interceptor {
     super.onRequest(options, handler);
   }
 
+}
+
+class HttpResponseLogInterceptor extends Interceptor {
+
   @override
   void onResponse(
-    Response response,
-    ResponseInterceptorHandler handler,
-  ) {
+      Response response,
+      ResponseInterceptorHandler handler,
+      ) {
     bool isLogResponse = response.requestOptions.extra[extraLogResponse];
     if (isLogResponse) {
       StringBuffer responseBuffer = StringBuffer();
@@ -56,7 +60,7 @@ class HttpLogInterceptor extends Interceptor {
       responseBuffer.write('- HEADER:\n{\n');
 
       response.headers.forEach(
-        (key, list) => responseBuffer.write('  "$key" : "$list",\n'),
+            (key, list) => responseBuffer.write('  "$key" : "$list",\n'),
       );
 
       responseBuffer.write('\n}\n');
@@ -73,9 +77,9 @@ class HttpLogInterceptor extends Interceptor {
 
   @override
   void onError(
-    DioException err,
-    ErrorInterceptorHandler handler,
-  ) {
+      DioException err,
+      ErrorInterceptorHandler handler,
+      ) {
     bool isLogResponse = err.requestOptions.extra[extraLogResponse];
     if (isLogResponse) {
       StringBuffer errorBuffer = StringBuffer();

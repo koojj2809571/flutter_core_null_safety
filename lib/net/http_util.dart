@@ -79,6 +79,10 @@ class HttpUtil {
 
     _dio = Dio(options);
 
+    if (isLog) {
+      _dio!.interceptors.add(HttpResponseLogInterceptor());
+    }
+
     if (responseOuterInterceptor != null) {
       _dio!.interceptors.add(responseOuterInterceptor);
     }
@@ -92,7 +96,7 @@ class HttpUtil {
     }
 
     if (isLog) {
-      _dio!.interceptors.add(HttpLogInterceptor());
+      _dio!.interceptors.add(HttpRequestLogInterceptor());
     }
   }
 
