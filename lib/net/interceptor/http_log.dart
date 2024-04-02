@@ -75,6 +75,23 @@ class HttpResponseLogInterceptor extends Interceptor {
     super.onResponse(response, handler);
   }
 
+  String _parseResponse(Response response) {
+    String responseStr = "";
+    var data = response.data;
+    if (data is Map) {
+      responseStr += data.mapToStructureString();
+    } else if (data is List) {
+      responseStr += data.listToStructureString();
+    } else {
+      responseStr += data.toString();
+    }
+
+    return responseStr;
+  }
+}
+
+class HttpErrorLogInterceptor extends Interceptor {
+
   @override
   void onError(
       DioException err,
@@ -106,17 +123,4 @@ class HttpResponseLogInterceptor extends Interceptor {
     super.onError(err, handler);
   }
 
-  String _parseResponse(Response response) {
-    String responseStr = "";
-    var data = response.data;
-    if (data is Map) {
-      responseStr += data.mapToStructureString();
-    } else if (data is List) {
-      responseStr += data.listToStructureString();
-    } else {
-      responseStr += data.toString();
-    }
-
-    return responseStr;
-  }
 }

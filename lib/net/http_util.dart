@@ -80,6 +80,7 @@ class HttpUtil {
     _dio = Dio(options);
 
     if (isLog) {
+      _dio!.interceptors.add(HttpErrorLogInterceptor());
       _dio!.interceptors.add(HttpResponseLogInterceptor());
     }
 
