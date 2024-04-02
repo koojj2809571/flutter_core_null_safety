@@ -85,14 +85,14 @@ class HttpUtil {
 
     _dio!.interceptors.add(ConnectionStatusInterceptor(_controller));
 
-    if (isLog) {
-      _dio!.interceptors.add(HttpLogInterceptor());
-    }
-
     _dio!.interceptors.add(ChangeBaseUrlInterceptor());
 
     if (interceptors != null && interceptors.isNotEmpty) {
       _dio!.interceptors.addAll(interceptors);
+    }
+
+    if (isLog) {
+      _dio!.interceptors.add(HttpLogInterceptor());
     }
   }
 
