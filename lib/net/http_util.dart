@@ -134,7 +134,7 @@ class HttpUtil {
     return cancelToken;
   }
 
-  Future _request(
+  Future<T?> _request<T>(
     String method,
     BuildContext context,
     Options options,
@@ -160,7 +160,7 @@ class HttpUtil {
         extraReqContentType: reqContentType,
       },
     );
-    var response = await _dio!.request(
+    var response = await _dio!.request<T>(
       path,
       queryParameters: method == 'GET' ? params : null,
       data: method == 'POST' ? params : null,
@@ -171,7 +171,7 @@ class HttpUtil {
 
   /// restful get 操作
   /// 如果请求时临时改变url在调用时，传入tempChangeUrl
-  Future get(
+  Future<T?> get<T>(
     BuildContext context,
     String path, {
     dynamic params,
@@ -184,7 +184,7 @@ class HttpUtil {
     String? reqContentType,
   }) async {
     Options requestOptions = options ?? Options();
-    return _request(
+    return _request<T>(
       'GET',
       context,
       requestOptions,
@@ -201,7 +201,7 @@ class HttpUtil {
 
   /// restful post 操作
   /// 如果请求时临时改变url在调用时，传入tempChangeUrl
-  Future post(
+  Future<T?> post<T>(
     BuildContext context,
     String path, {
     dynamic params,
@@ -214,7 +214,7 @@ class HttpUtil {
     String? reqContentType,
   }) async {
     Options requestOptions = options ?? Options();
-    return _request(
+    return _request<T>(
       'POST',
       context,
       requestOptions,
