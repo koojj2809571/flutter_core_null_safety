@@ -240,7 +240,7 @@ mixin class BaseFunction {
             child: Center(
               child: CupertinoActivityIndicator(radius: 10.w),
             ),
-            onPopInvoked: (bool didPop) => Future.value(false),
+            onPopInvokedWithResult: (bool didPop, dynamic result) => Future.value(false),
           ),
         );
       },

@@ -12,25 +12,25 @@ dependencies:
     sdk: flutter
 
   #  网络
-  dio: ^5.4.0
+  dio: ^5.7.0
   #  md5加密
-  crypto: ^3.0.3
+  crypto: ^3.0.6
   #  序列化
-  convert: ^3.1.1
+  convert: ^3.1.2
   #  数据本地化
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.3.2
   #  图片缓存
-  cached_network_image: ^3.3.1
+  cached_network_image: ^3.4.1
   #  状态管理
-  provider: ^6.1.1
+  provider: ^6.1.2
   #  电话,短信,浏览器,其他app
-  url_launcher: ^6.2.3
+  url_launcher: ^6.3.1
   #  日期格式化
-  date_format: ^2.0.7
+  date_format: ^2.0.9
   #  吐司提示
-  fluttertoast: ^8.2.4
+  fluttertoast: ^8.2.8
   #  尺寸适配
-  flutter_screenutil: ^5.9.0
+  flutter_screenutil: ^5.9.3
   # 上下拉刷新
   pull_to_refresh_flutter3: ^2.0.2
 
